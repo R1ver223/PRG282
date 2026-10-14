@@ -30,7 +30,7 @@ namespace BaobabWildlifeRehab
             dgvAnimals.AutoGenerateColumns = false;
             dgvAnimals.ColumnCount = 7;
 
-            dgvAnimals.Columns[0].Name = "ID";
+            dgvAnimals.Columns[0].Name = "Animal ID";
             dgvAnimals.Columns[0].DataPropertyName = "ID";
 
             dgvAnimals.Columns[1].Name = "Name";
@@ -56,6 +56,7 @@ namespace BaobabWildlifeRehab
             dgvAnimals.DataSource = null;
             dgvAnimals.DataSource = AnimalList;
         }
+
         private void LoadAnimalsFromFile()
         {
             AnimalList.Clear();
@@ -83,16 +84,6 @@ namespace BaobabWildlifeRehab
                     string species = parts[2];
 
 
-                    /*This validates the ID format which is cool but look into it looks strange
-                     * 
-                     * if (!Regex.IsMatch(id, @"^WR-\d{4}$", RegexOptions.IgnoreCase) ||
-                        !int.TryParse(parts[3], out int age) ||
-                        !int.TryParse(parts[4], out int score))
-                    {
-                        skippedLines++;
-                        continue;
-                    }
-                     */
                     if (!int.TryParse(parts[3], out int fileAge) || !int.TryParse(parts[4], out int fileScore))
                     {
                         skippedLines++;
@@ -118,15 +109,44 @@ namespace BaobabWildlifeRehab
 
             RefreshGrid();
         }
+        //Auto generates an available ID for the next animal to be added
+        private string GenerateNextAnimalId()
+        {
+            int nextNumber = 1;
 
+            if (AnimalList != null && AnimalList.Count > 0) //checks if the list is not null and has animals in it
+            {
+                var numbers = new List<int>();
+                foreach (var animal in AnimalList) //iterates through the list of animals to find the highest number used in the ID
+                {
+                    if (!string.IsNullOrEmpty(animal.ID) && animal.ID.StartsWith("WR-") && int.TryParse(animal.ID.Substring(3), out int num)) 
+                    {
+                        numbers.Add(num); 
+                    }
+                }
 
-        
+                if (numbers.Count > 0)
+                {
+                    nextNumber = numbers.Max() + 1; 
+                }
+            } 
+            return $"WR-{nextNumber:D4}"; //formats the number to be 4 digits long, padded with leading zeros 
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            txtID.Text = GenerateNextAnimalId(); //Set the initial ID when the form loads
         }
-
+        private void ClearInputs()
+        {
+            txtID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
+            txtID.Focus();
+        }
         private void btnAdd_Click(object sender, EventArgs e)
         {
             string id = txtID.Text.Trim().ToUpper();
@@ -172,9 +192,25 @@ namespace BaobabWildlifeRehab
 
             Animal newAnimal = new Animal(id, name, species, ageValue, scoreValue); //check it out don t work yet
             AnimalList.Add(newAnimal);
+
+            try { File.AppendAllText(FileName, newAnimal.ToString() + Environment.NewLine, System.Text.Encoding.UTF8); }
+            catch 
+            { 
+                MessageBox.Show("Error occurred while saving data. Make sure the file is not open in another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //Confirmation message after successful addition
+            MessageBox.Show("Animal added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            //Clear & refresh the UI (textboxes and grid)
+            ClearInputs();
+            RefreshGrid();
+            txtID.Text = GenerateNextAnimalId();
         }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
 
-        
+        }
     }
 }
