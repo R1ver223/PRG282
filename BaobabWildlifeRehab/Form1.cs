@@ -1,6 +1,7 @@
 ﻿using BaobabWildlifeRehab.Features;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -137,6 +138,8 @@ namespace BaobabWildlifeRehab
         private void Form1_Load(object sender, EventArgs e)
         {
             txtID.Text = GenerateNextAnimalId(); //Set the initial ID when the form loads
+            txtID.ReadOnly = true; 
+            btnSaveChanges.Enabled = false;
         }
         private void ClearInputs()
         {
@@ -210,6 +213,23 @@ namespace BaobabWildlifeRehab
 
         private void label1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void dgvAnimals_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            txtID.Text = dgvAnimals.Rows[e.RowIndex].Cells[0].Value.ToString();
+            txtName.Text = dgvAnimals.Rows[e.RowIndex].Cells[1].Value.ToString();
+            txtSpecies.Text = dgvAnimals.Rows[e.RowIndex].Cells[2].Value.ToString();
+            txtAge.Text = dgvAnimals.Rows[e.RowIndex].Cells[3].Value.ToString();
+            txtRecoveryScore.Text = dgvAnimals.Rows[e.RowIndex].Cells[4].Value.ToString();
+
+            btnAdd.Enabled = false;
+            btnAdd.BackColor = Color.DarkGray;
+            btnSaveChanges.Enabled = true;
 
         }
     }

@@ -44,6 +44,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.btnSaveChanges = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -65,58 +66,60 @@
             this.dgvAnimals.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAnimals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAnimals.Location = new System.Drawing.Point(201, 65);
-            this.dgvAnimals.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvAnimals.Margin = new System.Windows.Forms.Padding(4);
             this.dgvAnimals.Name = "dgvAnimals";
             this.dgvAnimals.ReadOnly = true;
+            this.dgvAnimals.RowHeadersWidth = 51;
             this.dgvAnimals.Size = new System.Drawing.Size(1133, 507);
             this.dgvAnimals.TabIndex = 0;
+            this.dgvAnimals.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAnimals_CellClick);
             // 
             // txtID
             // 
             this.txtID.Location = new System.Drawing.Point(22, 44);
-            this.txtID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtID.Margin = new System.Windows.Forms.Padding(4);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(142, 25);
+            this.txtID.Size = new System.Drawing.Size(142, 29);
             this.txtID.TabIndex = 1;
             // 
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(22, 103);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(142, 25);
+            this.txtName.Size = new System.Drawing.Size(142, 29);
             this.txtName.TabIndex = 2;
             // 
             // txtSpecies
             // 
             this.txtSpecies.Location = new System.Drawing.Point(22, 166);
-            this.txtSpecies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSpecies.Margin = new System.Windows.Forms.Padding(4);
             this.txtSpecies.Name = "txtSpecies";
-            this.txtSpecies.Size = new System.Drawing.Size(142, 25);
+            this.txtSpecies.Size = new System.Drawing.Size(142, 29);
             this.txtSpecies.TabIndex = 3;
             // 
             // txtAge
             // 
             this.txtAge.Location = new System.Drawing.Point(22, 229);
-            this.txtAge.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAge.Margin = new System.Windows.Forms.Padding(4);
             this.txtAge.Name = "txtAge";
-            this.txtAge.Size = new System.Drawing.Size(142, 25);
+            this.txtAge.Size = new System.Drawing.Size(142, 29);
             this.txtAge.TabIndex = 4;
             // 
             // txtRecoveryScore
             // 
             this.txtRecoveryScore.Location = new System.Drawing.Point(22, 297);
-            this.txtRecoveryScore.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtRecoveryScore.Margin = new System.Windows.Forms.Padding(4);
             this.txtRecoveryScore.Name = "txtRecoveryScore";
-            this.txtRecoveryScore.Size = new System.Drawing.Size(142, 25);
+            this.txtRecoveryScore.Size = new System.Drawing.Size(142, 29);
             this.txtRecoveryScore.TabIndex = 5;
             // 
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(10, 344);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(171, 26);
+            this.btnAdd.Size = new System.Drawing.Size(171, 28);
             this.btnAdd.TabIndex = 6;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -128,7 +131,7 @@
             this.label1.Location = new System.Drawing.Point(19, 23);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 17);
+            this.label1.Size = new System.Drawing.Size(31, 23);
             this.label1.TabIndex = 7;
             this.label1.Text = "ID:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -139,7 +142,7 @@
             this.label2.Location = new System.Drawing.Point(19, 82);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 17);
+            this.label2.Size = new System.Drawing.Size(60, 23);
             this.label2.TabIndex = 8;
             this.label2.Text = "Name:";
             // 
@@ -149,7 +152,7 @@
             this.label3.Location = new System.Drawing.Point(19, 145);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 17);
+            this.label3.Size = new System.Drawing.Size(70, 23);
             this.label3.TabIndex = 9;
             this.label3.Text = "Species:";
             // 
@@ -159,7 +162,7 @@
             this.label4.Location = new System.Drawing.Point(19, 208);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 17);
+            this.label4.Size = new System.Drawing.Size(98, 23);
             this.label4.TabIndex = 10;
             this.label4.Text = "Age (Years):";
             // 
@@ -169,12 +172,13 @@
             this.label5.Location = new System.Drawing.Point(19, 276);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(146, 17);
+            this.label5.Size = new System.Drawing.Size(187, 23);
             this.label5.TabIndex = 11;
             this.label5.Text = "Recovery Score (0-100):";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnSaveChanges);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtID);
             this.groupBox1.Controls.Add(this.btnAdd);
@@ -188,7 +192,7 @@
             this.groupBox1.Controls.Add(this.txtSpecies);
             this.groupBox1.Location = new System.Drawing.Point(12, 65);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(189, 387);
+            this.groupBox1.Size = new System.Drawing.Size(189, 427);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add New Animal";
@@ -199,13 +203,22 @@
             this.label7.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(18, 28);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(316, 26);
+            this.label7.Size = new System.Drawing.Size(411, 34);
             this.label7.TabIndex = 13;
             this.label7.Text = "Boabab Ridge Rehibilitation System";
             // 
+            // btnSaveChanges
+            // 
+            this.btnSaveChanges.Location = new System.Drawing.Point(12, 388);
+            this.btnSaveChanges.Name = "btnSaveChanges";
+            this.btnSaveChanges.Size = new System.Drawing.Size(169, 33);
+            this.btnSaveChanges.TabIndex = 12;
+            this.btnSaveChanges.Text = "Save Changes";
+            this.btnSaveChanges.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1333, 700);
@@ -213,7 +226,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvAnimals);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Main";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -241,6 +254,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnSaveChanges;
     }
 }
 
