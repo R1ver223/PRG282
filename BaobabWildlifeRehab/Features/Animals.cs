@@ -8,12 +8,13 @@ namespace BaobabWildlifeRehab.Features
 {
     public class Animal
     {
-        // Animal class with properties for ID, Name, Species, Age, RecoveryScore, Status, and HousingUnit
         public string ID { get; set; }
         public string Name { get; set; }
         public string Species { get; set; }
         public int Age { get; set; }
         public int RecoveryScore { get; set; }
+
+        // Private set is used for Data Protection as these properties should only be set within the class 
         public string Status { get; private set; }
         public string HousingUnit { get; private set; }
 
@@ -24,13 +25,10 @@ namespace BaobabWildlifeRehab.Features
             Species = species;
             Age = age;
             RecoveryScore = recoveryScore;
-            ClassifyAnimal(recoveryScore); // Automatically sets status and housing unit on creation
+            ClassifyAnimal(recoveryScore); 
         }
 
-        /// <summary>
-        /// Centralized classification method as required by Section 4.
-        /// Determines Status and Housing Unit based on the Recovery Score.
-        /// </summary>
+        // Classify the animal based on the recovery score 
         public void ClassifyAnimal(int score)
         {
             if (score >= 0 && score <= 19)
@@ -59,7 +57,7 @@ namespace BaobabWildlifeRehab.Features
                 HousingUnit = "Pre-Release Camp";
             }
         }
-
+        // Overides the built in ToString method to store the animal data in the specified format  
         public override string ToString()
         {
             return $"{ID} | {Name} | {Species} | {Age} | {RecoveryScore} | {Status} | {HousingUnit}";

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvAnimals = new System.Windows.Forms.DataGridView();
             this.txtID = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -50,22 +50,22 @@
             // 
             // dgvAnimals
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            this.dgvAnimals.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+            this.dgvAnimals.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvAnimals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAnimals.BackgroundColor = System.Drawing.SystemColors.ScrollBar;
             this.dgvAnimals.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAnimals.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAnimals.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvAnimals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAnimals.Location = new System.Drawing.Point(201, 65);
-            this.dgvAnimals.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvAnimals.Margin = new System.Windows.Forms.Padding(4);
             this.dgvAnimals.Name = "dgvAnimals";
             this.dgvAnimals.ReadOnly = true;
             this.dgvAnimals.Size = new System.Drawing.Size(1133, 507);
@@ -74,7 +74,7 @@
             // txtID
             // 
             this.txtID.Location = new System.Drawing.Point(22, 44);
-            this.txtID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtID.Margin = new System.Windows.Forms.Padding(4);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(142, 25);
             this.txtID.TabIndex = 1;
@@ -82,7 +82,7 @@
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(22, 103);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(142, 25);
             this.txtName.TabIndex = 2;
@@ -90,7 +90,7 @@
             // txtSpecies
             // 
             this.txtSpecies.Location = new System.Drawing.Point(22, 166);
-            this.txtSpecies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSpecies.Margin = new System.Windows.Forms.Padding(4);
             this.txtSpecies.Name = "txtSpecies";
             this.txtSpecies.Size = new System.Drawing.Size(142, 25);
             this.txtSpecies.TabIndex = 3;
@@ -98,7 +98,7 @@
             // txtAge
             // 
             this.txtAge.Location = new System.Drawing.Point(22, 229);
-            this.txtAge.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAge.Margin = new System.Windows.Forms.Padding(4);
             this.txtAge.Name = "txtAge";
             this.txtAge.Size = new System.Drawing.Size(142, 25);
             this.txtAge.TabIndex = 4;
@@ -106,7 +106,7 @@
             // txtRecoveryScore
             // 
             this.txtRecoveryScore.Location = new System.Drawing.Point(22, 297);
-            this.txtRecoveryScore.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtRecoveryScore.Margin = new System.Windows.Forms.Padding(4);
             this.txtRecoveryScore.Name = "txtRecoveryScore";
             this.txtRecoveryScore.Size = new System.Drawing.Size(142, 25);
             this.txtRecoveryScore.TabIndex = 5;
@@ -114,7 +114,7 @@
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(10, 344);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(171, 26);
             this.btnAdd.TabIndex = 6;
@@ -208,12 +208,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(1333, 700);
+            this.ClientSize = new System.Drawing.Size(1340, 576);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvAnimals);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Main";
             this.Load += new System.EventHandler(this.Form1_Load);

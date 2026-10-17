@@ -15,23 +15,24 @@ namespace BaobabWildlifeRehab
 {
     public partial class Form1 : Form
     {
-        private const string FileName = "animals.txt"; //constant variable for the file name
-        private List<Animal> AnimalList = new List<Animal>(); //list for animals
+        private const string FileName = "animals.txt"; 
+        private List<Animal> AnimalList = new List<Animal>();
         public Form1()
         {
             InitializeComponent();
-             //add? load animals from file on form load
+            // Set up the DataGridView columns and properties
             InitializeDataGridView();
-            LoadAnimalsFromFile();
+            // Load animal data from "animals.txt" to the DataGridView
+            LoadAnimalsFromFile();                        
         }
 
         private void InitializeDataGridView()
         {
-            dgvAnimals.AutoGenerateColumns = false;
+            dgvAnimals.AutoGenerateColumns = false; 
             dgvAnimals.ColumnCount = 7;
 
-            dgvAnimals.Columns[0].Name = "Animal ID";
-            dgvAnimals.Columns[0].DataPropertyName = "ID";
+            dgvAnimals.Columns[0].Name = "Animal ID";       
+            dgvAnimals.Columns[0].DataPropertyName = "ID";  
 
             dgvAnimals.Columns[1].Name = "Name";
             dgvAnimals.Columns[1].DataPropertyName = "Name";
@@ -51,7 +52,7 @@ namespace BaobabWildlifeRehab
             dgvAnimals.Columns[6].Name = "Housing Unit";
             dgvAnimals.Columns[6].DataPropertyName = "HousingUnit";
         }
-        private void RefreshGrid() //refreshes the datagridview with the current list of animals
+        private void RefreshGrid()
         {
             dgvAnimals.DataSource = null;
             dgvAnimals.DataSource = AnimalList;
@@ -63,33 +64,31 @@ namespace BaobabWildlifeRehab
             int skippedLines = 0;
 
             try
-            {
-                if (!File.Exists(FileName)) //checks if file does not exist
+            {   // Checks if the file exists.
+                if (!File.Exists(FileName))                 
                 {
-                    File.WriteAllText(FileName, ""); // Create an empty file if it doesn't exist
+                    // Writes an empty file
+                    File.WriteAllText(FileName, "");        
                     RefreshGrid();
                 }
 
-                string[] lines = File.ReadAllLines(FileName); //temporary array to hold the lines of the file
+                string[] lines = File.ReadAllLines(FileName); 
 
                 foreach (var line in lines)
-                {
-                    if (string.IsNullOrEmpty(line)) continue; // Skip empty lines to ensure the datagrid view doesn't break
-
-                    var parts = line.Split('|').Select(p => p.Trim()).ToArray(); //splits the line into parts and trims whitespace
-
+                {   // Skips empty lines to avoid datagridview crashes
+                    if (string.IsNullOrEmpty(line)) continue;
+                    // Stores file data into an array and removes whitespace
+                    var parts = line.Split('|').Select(p => p.Trim()).ToArray();
 
                     string id = parts[0];
                     string name = parts[1];
                     string species = parts[2];
-
-
-                    if (!int.TryParse(parts[3], out int fileAge) || !int.TryParse(parts[4], out int fileScore))
+                    if (!int.TryParse(parts[3], out int age) || !int.TryParse(parts[4], out int score)) 
                     {
                         skippedLines++;
                         continue;
                     }
-                    AnimalList.Add(new Animal(id.ToUpper(), name, species, fileAge, fileScore));
+                    AnimalList.Add(new Animal(id.ToUpper(), name, species, age, score));
       
 
                     if (skippedLines > 0)
@@ -98,7 +97,8 @@ namespace BaobabWildlifeRehab
                     }
                 }
             }
-            catch (IOException ex)    //light exception handeling just so the program doesn t crash
+            
+            catch (IOException ex)    
             {
                 MessageBox.Show($"Error loading animals from file: {ex.Message}", "File Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -109,35 +109,37 @@ namespace BaobabWildlifeRehab
 
             RefreshGrid();
         }
-        //Auto generates an available ID for the next animal to be added
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            txtID.Text = GenerateNextAnimalId(); // Auto-generates the next available ID when the form loads
+        }
         private string GenerateNextAnimalId()
         {
             int nextNumber = 1;
-
-            if (AnimalList != null && AnimalList.Count > 0) //checks if the list is not null and has animals in it
+            // Checks if the AnimalList has an animals in it
+            if (AnimalList != null && AnimalList.Count > 0) 
             {
                 var numbers = new List<int>();
-                foreach (var animal in AnimalList) //iterates through the list of animals to find the highest number used in the ID
+                // Loops through the AnimalList to find the highest numbered ID 
+                foreach (var animal in AnimalList) 
                 {
                     if (!string.IsNullOrEmpty(animal.ID) && animal.ID.StartsWith("WR-") && int.TryParse(animal.ID.Substring(3), out int num)) 
                     {
+                        // Counts th available numbers
                         numbers.Add(num); 
                     }
                 }
 
                 if (numbers.Count > 0)
                 {
+                    // +1 to the highest number to give the next available ID
                     nextNumber = numbers.Max() + 1; 
                 }
-            } 
-            return $"WR-{nextNumber:D4}"; //formats the number to be 4 digits long, padded with leading zeros 
+            }
+            // format: WR-0000
+            return $"WR-{nextNumber:D4}";
         }
 
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            txtID.Text = GenerateNextAnimalId(); //Set the initial ID when the form loads
-        }
         private void ClearInputs()
         {
             txtID.Clear();
@@ -147,6 +149,7 @@ namespace BaobabWildlifeRehab
             txtRecoveryScore.Clear();
             txtID.Focus();
         }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             string id = txtID.Text.Trim().ToUpper();
@@ -155,16 +158,16 @@ namespace BaobabWildlifeRehab
             string age = txtAge.Text.Trim();
             string score = txtRecoveryScore.Text.Trim();
 
-            //checks if the ID is valid, must be 7 characters long, start with WR- and the last 4 characters must be numbers
+            // Checks valid input and if invalid, focuses on the textbox with the issue
             bool InvalidID = id == null || id.Length != 7 || !id.StartsWith("WR-") || !int.TryParse(id.Substring(3), out _);
             if (InvalidID)
             {
                 MessageBox.Show("Invalid ID format. Please use the format WR-XXXX where XXXX are numbers.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtID.Focus(); //refocuses on where the issue is
+                txtID.Focus(); 
             }
-            string[] forbiddenCharacters = {"|", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "."}; //forbidden characters foor validation
 
-            if (string.IsNullOrEmpty(name) || name.Length > 30 || forbiddenCharacters.Any(c => name.Contains(c))) //checks if name contains any forbidden characters
+            string[] forbiddenCharacters = {"|", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "."}; 
+            if (string.IsNullOrEmpty(name) || name.Length > 30 || forbiddenCharacters.Any(c => name.Contains(c))) 
             {
                 MessageBox.Show("Please re-enter a name for the Animal it must be less than 30 characters and not contain any special characters", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtName.Focus();
@@ -182,27 +185,27 @@ namespace BaobabWildlifeRehab
                 txtAge.Focus();
                 return;
             }
-
             if(!int.TryParse(score, out int scoreValue) || scoreValue < 0 || scoreValue > 100)
             {
                 MessageBox.Show("Please re-enter a valid recovery score for the Animal (0-100).", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtRecoveryScore.Focus();
                 return;
             }
-
-            Animal newAnimal = new Animal(id, name, species, ageValue, scoreValue); //check it out don t work yet
+            // Adds the new animal to the list
+            Animal newAnimal = new Animal(id, name, species, ageValue, scoreValue); 
             AnimalList.Add(newAnimal);
 
+            // Saves the new animal to the file and handles any potential errors
             try { File.AppendAllText(FileName, newAnimal.ToString() + Environment.NewLine, System.Text.Encoding.UTF8); }
             catch 
             { 
                 MessageBox.Show("Error occurred while saving data. Make sure the file is not open in another application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            //Confirmation message after successful addition
+            
             MessageBox.Show("Animal added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            //Clear & refresh the UI (textboxes and grid)
+            // Clears & refreshes the GUI 
             ClearInputs();
             RefreshGrid();
             txtID.Text = GenerateNextAnimalId();
