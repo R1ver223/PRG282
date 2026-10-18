@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -140,6 +141,7 @@ namespace BaobabWildlifeRehab
             txtID.Text = GenerateNextAnimalId(); //Set the initial ID when the form loads
             txtID.ReadOnly = true; 
             btnSaveChanges.Enabled = false;
+            btnSaveChanges.BackColor = Color.DarkGray;
         }
         private void ClearInputs()
         {
@@ -230,7 +232,191 @@ namespace BaobabWildlifeRehab
             btnAdd.Enabled = false;
             btnAdd.BackColor = Color.DarkGray;
             btnSaveChanges.Enabled = true;
+            btnSaveChanges.BackColor = Color.White;
 
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            btnAdd.Enabled = false;
+            btnAdd.BackColor = Color.DarkGray;
+            btnSaveChanges.Enabled = true;
+            string studentID = txtSearch.Text;
+
+            string[] lines = File.ReadAllLines(FileName);
+
+            foreach (string i in lines)
+            {
+                string[] item = i.Split('|');
+
+                if (item[0].Trim() == studentID.Trim()) // checks the first item in each line
+                {
+                    dgvAnimals.DataSource = null;//This disconnects the DataGridView from its current data source.
+                    dgvAnimals.Rows.Clear();// removes all the rows currently displayed in the DataGridView.
+                    dgvAnimals.Rows.Add(item);// displays entire record in datagrid
+                    txtID.Text = item[0].Trim();
+                    txtName.Text= item[1].Trim();
+                    txtSpecies.Text= item[2].Trim();
+                    txtAge.Text= item[3].Trim();
+                    txtRecoveryScore.Text= item[4].Trim();
+                    return;
+                }
+            }
+            MessageBox.Show($"{studentID} record not found.");
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            btnAdd.Enabled = true;
+            btnAdd.BackColor = Color.White;
+            btnSaveChanges.Enabled = false;
+            btnSaveChanges.BackColor = Color.DarkGray;
+            dgvAnimals.DataSource = AnimalList;
+
+            txtID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
+            txtSearch.Clear();
+            txtID.Text = GenerateNextAnimalId(); //Set the initial ID when the form loads
+            txtName.Focus();
+
+        }
+
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            // Get the values from the TextBoxes
+            string id = txtID.Text.Trim().ToUpper();
+            string name = txtName.Text.Trim();
+            string species = txtSpecies.Text.Trim();
+            string age = txtAge.Text.Trim();
+            string score = txtRecoveryScore.Text.Trim();
+
+            //checks if the ID is valid, must be 7 characters long, start with WR- and the last 4 characters must be numbers
+            bool InvalidID = id.Length != 7 ||
+                             !id.StartsWith("WR-") ||
+                             !int.TryParse(id.Substring(3), out _);
+
+            if (InvalidID)
+            {
+                MessageBox.Show("Invalid ID format. Use WR-XXXX.");
+                txtID.Focus();
+                return;
+            }
+
+            // Characters that are not allowed
+            string[] forbiddenCharacters =
+            { "|", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "."};
+
+            // Validate the name
+            if (string.IsNullOrEmpty(name) || name.Length > 30 ||
+                forbiddenCharacters.Any(c => name.Contains(c)))
+            {
+                MessageBox.Show("Invalid animal name.");
+                txtName.Focus();
+                return;
+            }
+
+            // Validate the species
+            if (string.IsNullOrEmpty(species) || species.Length > 30 ||
+                forbiddenCharacters.Any(c => species.Contains(c)))
+            {
+                MessageBox.Show("Invalid animal species.");
+                txtSpecies.Focus();
+                return;
+            }
+
+            // Validate the age
+            if (!int.TryParse(age, out int ageValue) ||
+                ageValue < 0 || ageValue > 100)
+            {
+                MessageBox.Show("Age must be between 0 and 100.");
+                txtAge.Focus();
+                return;
+            }
+
+            // Validate the recovery score
+            if (!int.TryParse(score, out int scoreValue) ||
+                scoreValue < 0 || scoreValue > 100)
+            {
+                MessageBox.Show("Recovery score must be between 0 and 100.");
+                txtRecoveryScore.Focus();
+                return;
+            }
+
+            // Create the updated animal.
+            // The Animal constructor must recalculate status and housing.
+            Animal updatedAnimal = new Animal(
+                id, name, species, ageValue, scoreValue);
+
+            try
+            {
+                
+                string[] lines = File.ReadAllLines(FileName);
+
+                // Check whether the animal was found
+                bool found = false;
+
+                
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    // Split the current line into separate items using |
+                    string[] item = lines[i].Split('|');
+
+                    // Check if the ID matches the animal being edited
+                    if (item[0].Trim() == id)
+                    {
+                        // Replace the old record with the updated animal
+                        lines[i] = updatedAnimal.ToString();
+
+                        // Record that the animal was found
+                        found = true;
+
+                       
+                        break;
+
+                }   }
+
+                // Stop if the animal was not found
+                if (!found)
+                {
+                    MessageBox.Show("Record not found.");
+                    return;
+                }
+
+                // Rewrite the file with the updated records
+                File.WriteAllLines(FileName, lines,
+                                   System.Text.Encoding.UTF8);
+
+                // Update the animal in the list as well
+                for (int i = 0; i < AnimalList.Count; i++)
+                {
+                    if (AnimalList[i].ID == id)
+                    {
+                        AnimalList[i] = updatedAnimal;
+                        break;
+                    }
+                }
+
+                // Refresh the DataGridView
+                RefreshGrid();
+
+                MessageBox.Show("Animal updated successfully!",
+                                "Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+            catch
+            {
+                MessageBox.Show(
+                    "Error saving changes. Check the file and try again.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        
         }
     }
 }
