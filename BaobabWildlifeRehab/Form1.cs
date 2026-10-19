@@ -418,5 +418,72 @@ namespace BaobabWildlifeRehab
             }
         
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvAnimals.SelectedRows.Count > 0)
+            {
+                // ask for confimation
+                DialogResult result = MessageBox.Show($"Delete {txtID.Text} ({txtName.Text})? This cannot be undone.",
+                    "Confirm Delete",
+                     MessageBoxButtons.YesNo,
+                     MessageBoxIcon.Warning);
+
+                // only delete if the user chooses Yes
+                if (result == DialogResult.Yes)
+                {
+                    string[] lines = File.ReadAllLines(FileName);
+
+                    //convert array to list
+                    List<string> UpToDateAnimals = new List<string>(lines);
+
+                    
+
+
+                    for (int i = 0; i < UpToDateAnimals.Count; i++)
+                    {
+                        // Split the current line into separate items using |
+                        string[] item = UpToDateAnimals[i].Split('|');
+
+                        // Check if the ID matches the animal being edited
+                        if (item[0].Trim() == txtID.Text.Trim())
+                        {
+                            // Replace the old record with the updated animal
+                            UpToDateAnimals.RemoveAt(i);
+                            break;
+
+                        }
+                    }
+
+                    // Rewrite the file with the updated records
+                    File.WriteAllLines(FileName, UpToDateAnimals);
+                    
+
+                    
+
+                    // Remove the animal in the list as well
+                    for (int i = 0; i < AnimalList.Count; i++)
+                    {
+                        if (AnimalList[i].ID == txtID.Text.Trim())
+                        {
+                            AnimalList.RemoveAt(i);
+                            break;
+                        }
+                    }
+
+                    // Refresh the DataGridView
+                    RefreshGrid();
+                }
+
+            }
+            else
+            {
+                MessageBox.Show(
+                    "No record is selected. Select a Record First",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
     }
 }
