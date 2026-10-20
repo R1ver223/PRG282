@@ -139,9 +139,11 @@ namespace BaobabWildlifeRehab
         private void Form1_Load(object sender, EventArgs e)
         {
             txtID.Text = GenerateNextAnimalId(); //Set the initial ID when the form loads
+            //==================== Edit Mode OFF ===============
             txtID.ReadOnly = true; 
             btnSaveChanges.Enabled = false;
             btnSaveChanges.BackColor = Color.DarkGray;
+            //=================================================
         }
         private void ClearInputs()
         {
@@ -229,18 +231,22 @@ namespace BaobabWildlifeRehab
             txtAge.Text = dgvAnimals.Rows[e.RowIndex].Cells[3].Value.ToString();
             txtRecoveryScore.Text = dgvAnimals.Rows[e.RowIndex].Cells[4].Value.ToString();
 
+            //=========================== Edit Mode On===========================
             btnAdd.Enabled = false;
             btnAdd.BackColor = Color.DarkGray;
             btnSaveChanges.Enabled = true;
             btnSaveChanges.BackColor = Color.White;
-
+            //===================================================================
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            // =========================== edit mode On ==============
             btnAdd.Enabled = false;
             btnAdd.BackColor = Color.DarkGray;
             btnSaveChanges.Enabled = true;
+            btnSaveChanges.BackColor= Color.White;
+            // =======================================================
             string studentID = txtSearch.Text;
 
             string[] lines = File.ReadAllLines(FileName);
@@ -268,10 +274,12 @@ namespace BaobabWildlifeRehab
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+            // ======================= Edit Mode Off ==================
             btnAdd.Enabled = true;
             btnAdd.BackColor = Color.White;
             btnSaveChanges.Enabled = false;
             btnSaveChanges.BackColor = Color.DarkGray;
+            // =======================================================
             dgvAnimals.DataSource = AnimalList;
 
             txtID.Clear();
@@ -346,8 +354,7 @@ namespace BaobabWildlifeRehab
                 return;
             }
 
-            // Create the updated animal.
-            // The Animal constructor must recalculate status and housing.
+            // Create the updated animal.The Animal constructor will recalculate values.
             Animal updatedAnimal = new Animal(
                 id, name, species, ageValue, scoreValue);
 
@@ -387,8 +394,7 @@ namespace BaobabWildlifeRehab
                 }
 
                 // Rewrite the file with the updated records
-                File.WriteAllLines(FileName, lines,
-                                   System.Text.Encoding.UTF8);
+                File.WriteAllLines(FileName, lines);
 
                 // Update the animal in the list as well
                 for (int i = 0; i < AnimalList.Count; i++)
@@ -473,6 +479,21 @@ namespace BaobabWildlifeRehab
 
                     // Refresh the DataGridView
                     RefreshGrid();
+
+                    MessageBox.Show(
+                    "Record Has been Deleted",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                    txtID.Clear();
+                    txtName.Clear();
+                    txtSpecies.Clear();
+                    txtAge.Clear();
+                    txtRecoveryScore.Clear();
+                    txtSearch.Clear();
+                    txtID.Text = GenerateNextAnimalId(); //Set the initial ID when the form loads
+                    txtName.Focus();
                 }
 
             }
