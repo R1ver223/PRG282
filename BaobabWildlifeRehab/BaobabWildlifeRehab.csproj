@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\Animals.cs" />
+    <Compile Include="Features\SummaryReport.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
