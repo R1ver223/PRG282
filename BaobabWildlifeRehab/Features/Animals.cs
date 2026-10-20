@@ -27,10 +27,7 @@ namespace BaobabWildlifeRehab.Features
             ClassifyAnimal(recoveryScore); // Automatically sets status and housing unit on creation
         }
 
-        /// <summary>
-        /// Centralized classification method as required by Section 4.
-        /// Determines Status and Housing Unit based on the Recovery Score.
-        /// </summary>
+        // Centralized classification method as required by Section 4 Determines Status and Housing Unit based on the Recovery Score.
         public void ClassifyAnimal(int score)
         {
             if (score >= 0 && score <= 19)
@@ -59,7 +56,7 @@ namespace BaobabWildlifeRehab.Features
                 HousingUnit = "Pre-Release Camp";
             }
         }
-
+        // foramt to store data in animal.txt file
         public override string ToString()
         {
             return $"{ID} | {Name} | {Species} | {Age} | {RecoveryScore} | {Status} | {HousingUnit}";

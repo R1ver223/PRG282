@@ -18,14 +18,13 @@ namespace BaobabWildlifeRehab
     public partial class Form1 : Form
     {
         private const string FileName = "animals.txt"; //constant variable for the file name
-        private List<Animal> AnimalList = new List<Animal>(); //list for animals
+        private List<Animal> AnimalList = new List<Animal>(); 
         private Button btnGenerateSummary;
         private TextBox txtSummary;
 
         public Form1()
         {
             InitializeComponent();
-             //add? load animals from file on form load
             InitializeDataGridView();
             LoadAnimalsFromFile();
             BuildSummaryControls();
