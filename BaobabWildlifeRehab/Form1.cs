@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static BaobabWildlifeRehab.Features.Animal;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 
 namespace BaobabWildlifeRehab
 {
@@ -19,12 +19,16 @@ namespace BaobabWildlifeRehab
     {
         private const string FileName = "animals.txt"; //constant variable for the file name
         private List<Animal> AnimalList = new List<Animal>(); //list for animals
+        private Button btnGenerateSummary;
+        private TextBox txtSummary;
+
         public Form1()
         {
             InitializeComponent();
              //add? load animals from file on form load
             InitializeDataGridView();
             LoadAnimalsFromFile();
+            BuildSummaryControls();
         }
 
         private void InitializeDataGridView()
@@ -425,6 +429,52 @@ namespace BaobabWildlifeRehab
         
         }
 
+        // Creates the Generate Summary button and the read-only box that shows the report
+        private void BuildSummaryControls()
+        {
+            dgvAnimals.Height = 380; // makes room under the grid for the report
+
+            btnGenerateSummary = new Button();
+            btnGenerateSummary.Name = "btnGenerateSummary";
+            btnGenerateSummary.Text = "Generate Summary";
+            btnGenerateSummary.Location = new Point(940, 480);
+            btnGenerateSummary.Size = new Size(157, 43);
+            btnGenerateSummary.Click += btnGenerateSummary_Click;
+
+            txtSummary = new TextBox();
+            txtSummary.Name = "txtSummary";
+            txtSummary.Multiline = true;
+            txtSummary.ReadOnly = true;
+            txtSummary.ScrollBars = ScrollBars.Vertical;
+            txtSummary.Font = new Font("Consolas", 10F);
+            txtSummary.Location = new Point(303, 480);
+            txtSummary.Size = new Size(620, 265);
+
+            Controls.Add(btnGenerateSummary);
+            Controls.Add(txtSummary);
+        }
+
+        // Builds the report, shows it on the form and saves it to summary.txt
+        private void btnGenerateSummary_Click(object sender, EventArgs e)
+        {
+            string report = SummaryReport.BuildReport(AnimalList);
+            txtSummary.Text = report;
+
+            try
+            {
+                SummaryReport.SaveReport(report);
+                MessageBox.Show("Summary saved to summary.txt.", "Summary", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Access denied. summary.txt could not be saved.", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("summary.txt could not be saved. Make sure it is not open in another program.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvAnimals.SelectedRows.Count > 0)
